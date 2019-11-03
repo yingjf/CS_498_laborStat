@@ -1,0 +1,17 @@
+# compile java file:
+export HADOOP_CLASSPATH=$JAVA_HOME/lib/tools.jar
+hadoop com.sun.tools.javac.Main LaborStats.java -d build
+jar -cvf LaborStats.jar -C build/ ./
+
+
+# remove  java file:
+rm -rf ./build/* ./LaborStats.jar
+hadoop com.sun.tools.javac.Main LaborStats.java -d build
+jar -cvf LaborStats.jar -C build/ ./
+hadoop fs -rm -r -f /project/output
+
+# Run java file:
+hadoop jar LaborStats.jar LaborStats /project/input/* /project/output
+
+# check output results:
+hadoop fs -cat /project/output/part* > Labor-output.txt
